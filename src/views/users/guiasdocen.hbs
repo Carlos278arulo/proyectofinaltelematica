@@ -1,0 +1,41 @@
+<div class="guia1">
+  <div class="content-guia1">
+    <h1>Sistema de Gestión de estudiantes</h1>
+    <h1>Listado de Guías generadas por el docente</h1>
+    <form method="GET" action="/archivodocente">
+      <button type="submit">Realizar Consulta</button>
+    </form>
+    <div style="overflow-x: auto; width: 100%;">
+      <table style="width: 100%; white-space: nowrap; font-size: 16px;">
+        <thead>
+          <tr>
+            <th>guia</th>
+            <th>pregunta</th>
+            <th>preguntaSele</th>
+            <th>opciones</th>
+            <th>opcionCorrecta</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each consultadocente}}
+          <tr>
+            <td>{{this.guia}}</td>
+            <td>{{this.pregunta}}</td>
+            <td>{{this.preguntaSele}}</td>
+            <td>{{this.opciones}}</td>
+            <td>{{this.opcionCorrecta}}</td>
+            <td>
+            <form method="POST" action="/deleteguiadocen/{{this._id}}?_method=DELETE">
+              <button type="submit">Eliminar</button>
+              </form>
+            </td>
+            </form>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      
+
+    </div>
+  </div>

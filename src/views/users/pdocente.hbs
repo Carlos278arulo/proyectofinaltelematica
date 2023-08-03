@@ -1,0 +1,119 @@
+<div class="guia1">
+        <div class="content-guia1">
+            <h1>Formulario de preguntas dinámicas</h1>
+            <form action="/createdocente" method="POST">
+                <label for="correo">Correo electrónico (obligatorio):</label>
+                <input type="email" id="correo" name="correo" placeholder="Ingrese su correo" required>
+                <br>
+
+                <label for="guia">Nombre de Guía de Laboratorio:</label>
+                <input type="text" id="guia" name="guia" placeholder="Ingrese el nombre de la guía">
+                <br>
+
+                <div id="preguntas"></div>
+                <button type="button" onclick="agregarPreguntaTexto()">Agregar Pregunta de Texto</button>
+                <button type="button" onclick="agregarPreguntaSeleccion()">Agregar Pregunta de Selección Múltiple</button>
+                <br><br>
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let contadorPreguntasTexto = 1;
+        let contadorPreguntasSeleccion = 1;
+
+        function agregarPreguntaTexto() {
+            const preguntasDiv = document.getElementById('preguntas');
+
+            const preguntaTextoHTML = `
+                <div>
+                    <label for="preguntaTexto${contadorPreguntasTexto}">Pregunta de Texto ${contadorPreguntasTexto}:</label>
+                    <input type="text" id="preguntaTexto${contadorPreguntasTexto}" name="pregunta" required>
+                    <button type="button" onclick="eliminarPreguntaTexto(this)">Eliminar</button>
+                </div>
+            `;
+
+            const preguntaTextoElement = document.createElement('div');
+            preguntaTextoElement.innerHTML = preguntaTextoHTML;
+
+            preguntasDiv.appendChild(preguntaTextoElement);
+
+            contadorPreguntasTexto++;
+        }
+
+        function agregarPreguntaSeleccion() {
+            const preguntasDiv = document.getElementById('preguntas');
+
+            const preguntaSeleccionHTML = `
+                <div>
+                    <label for="preguntaSeleccion${contadorPreguntasSeleccion}">Pregunta de Selección Múltiple ${contadorPreguntasSeleccion}:</label>
+                    <input type="text" id="preguntaSeleccion${contadorPreguntasSeleccion}" name="preguntaSele" required>
+                    <br>
+                    <div class="opciones${contadorPreguntasSeleccion}">
+                        <button type="button" onclick="agregarOpcion(${contadorPreguntasSeleccion})">Agregar Opción</button>
+                    </div>
+                    <button type="button" onclick="eliminarPreguntaSeleccion(this)">Eliminar</button>
+                </div>
+            `;
+
+            const preguntaSeleccionElement = document.createElement('div');
+            preguntaSeleccionElement.innerHTML = preguntaSeleccionHTML;
+
+            preguntasDiv.appendChild(preguntaSeleccionElement);
+
+            contadorPreguntasSeleccion++;
+        }
+
+        function agregarOpcion(preguntaNum) {
+            const opcionesDiv = document.querySelector(`.opciones${preguntaNum}`);
+            const opcionDiv = document.createElement('div');
+            opcionDiv.classList.add('opcion');
+
+            const opcionInput = document.createElement('input');
+            opcionInput.type = 'text';
+            opcionInput.name = `opciones`; // Cambia el nombre a opciones[]
+            opcionInput.placeholder = 'Ingrese una opción';
+            opcionDiv.appendChild(opcionInput);
+
+            const opcionRadio = document.createElement('input');
+            opcionRadio.type = 'radio';
+            opcionRadio.name = `opcionCorrecta`; // Cambia el nombre a opcionCorrecta[]
+            opcionRadio.value = opcionesDiv.children.length - 1; // Asigna el índice de la opción como valor
+            opcionDiv.appendChild(opcionRadio);
+
+
+            const opcionLabel = document.createElement('label');
+            const letraAbecedario = String.fromCharCode(65 + opcionesDiv.children.length - 1);
+            opcionLabel.textContent = `Opción ${letraAbecedario}. `;
+            opcionDiv.appendChild(opcionLabel);
+
+            const opcionEliminarButton = document.createElement('button');
+            opcionEliminarButton.type = 'button';
+            opcionEliminarButton.textContent = 'Eliminar Opción';
+            opcionEliminarButton.addEventListener('click', function () {
+                opcionDiv.remove();
+            });
+            opcionDiv.appendChild(opcionEliminarButton);
+
+            opcionRadio.addEventListener('click', function () {
+                const radios = opcionesDiv.querySelectorAll('input[type="radio"]');
+                radios.forEach(radio => {
+                    radio.checked = false;
+                });
+                this.checked = true;
+            });
+
+            opcionesDiv.appendChild(opcionDiv);
+        }
+
+        function eliminarPreguntaTexto(elemento) {
+            const preguntaDiv = elemento.parentNode;
+            preguntaDiv.remove();
+        }
+
+        function eliminarPreguntaSeleccion(elemento) {
+            const preguntaDiv = elemento.parentNode;
+            preguntaDiv.remove();
+        }
+    </script>

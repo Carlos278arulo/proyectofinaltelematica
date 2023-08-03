@@ -1,0 +1,16 @@
+<div class="guia1">
+  <div class="content-guia1">
+    <h2>BIENVENIDO, AQUÍ LOS ESTUDIANTES PUEDen Desarrollar SUS GUÍAS DE LABORATORIO</h2>
+
+    <h2>Guía a Desarrollar: {{consultaestu.guia}}</h2>
+    <p>Pregunta: {{consultaestu.pregunta}}</p>
+    <p>Opciones:</p>
+    <ul>
+      {{#each consultaestu.opciones}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    <p>Pregunta Seleccionada: {{consultaestu.preguntaSele}}</p>
+    <p>Opción Correcta: {{consultaestu.opcionCorrecta}}</p>
+  </div>
+</div>

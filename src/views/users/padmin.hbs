@@ -1,0 +1,109 @@
+<div class="guia1">
+  <div class="content-guia1">
+    <h1>Sistema de Gestión de guías</h1>
+    <h2>Administrador</h2>
+
+    <form action="/createadmin" method="POST">
+      <table>
+        <tr>
+          <td>
+            <h3>Creación de Facultades</h3>
+            <div id="facultiesContainer">
+              <div class="facultyInput">
+                <label for="facultyName">Nombre de la Facultad:</label>
+                <input type="text" class="facultyName" name="facultyName" required>
+              </div>
+            </div>
+            {{!-- <button type="button" onclick="addFacultyInput()">Agregar Facultad</button> --}}
+          </td>
+
+          <td>
+            <h3>Creación de Programas</h3>
+            <div id="programsContainer">
+              <div class="programInput">
+                <label for="programName">Nombre del Programa:</label>
+                <input type="text" class="programName" name="programName" required>
+              </div>
+            </div>
+            {{!-- <button type="button" onclick="addProgramInput()">Agregar Programa</button> --}}
+          </td>
+
+          <td>
+            <h3>Creación de Asignaturas</h3>
+            <div id="subjectsContainer">
+              <div class="subjectInput">
+                <label for="subjectName">Nombre de la Asignatura:</label>
+                <input type="text" class="subjectName" name="subjectName" required>
+              </div>
+            </div>
+            <button type="button" onclick="addSubjectInput()">Agregar Asignatura</button>
+          </td>
+        </tr>
+      </table>
+
+      <button type="submit">Guardar</button>
+    </form>
+    <h1>Datos almacenados</h1>
+    <form method="GET" action="/viewadmin/:userId">
+      <button type="submit">Realizar Consulta</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Facultad</th>
+          <th>Programa</th>
+          <th>Asignatura</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each universidades}}
+        <tr>
+          <td>{{this.facultyName}}</td>
+          <td>{{this.programName}}</td>
+          <td>{{this.subjectName}}</td>
+          <td>
+            <form method="POST" action="/deleteadmin/{{this._id}}?_method=DELETE">
+              <button type="submit">Eliminar</button>
+            </form>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  function addFacultyInput() {
+    const facultiesContainer = document.getElementById("facultiesContainer");
+    const newFacultyInput = document.createElement("div");
+    newFacultyInput.className = "facultyInput";
+    newFacultyInput.innerHTML = `
+      <label for="facultyName">Nombre de la Facultad:</label>
+      <input type="text" class="facultyName" name="facultyName" required>
+    `;
+    facultiesContainer.appendChild(newFacultyInput);
+  }
+
+  function addProgramInput() {
+    const programsContainer = document.getElementById("programsContainer");
+    const newProgramInput = document.createElement("div");
+    newProgramInput.className = "programInput";
+    newProgramInput.innerHTML = `
+      <label for="programName">Nombre del Programa:</label>
+      <input type="text" class="programName" name="programName" required>
+    `;
+    programsContainer.appendChild(newProgramInput);
+  }
+
+  function addSubjectInput() {
+    const subjectsContainer = document.getElementById("subjectsContainer");
+    const newSubjectInput = document.createElement("div");
+    newSubjectInput.className = "subjectInput";
+    newSubjectInput.innerHTML = `
+      <label for="subjectName">Nombre de la Asignatura:</label>
+      <input type="text" class="subjectName" name="subjectName" required>
+    `;
+    subjectsContainer.appendChild(newSubjectInput);
+  }
+</script>

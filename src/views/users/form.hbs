@@ -1,0 +1,75 @@
+<!-- archivo preguntaForm.hbs -->
+<div class="guia1">
+    <div class="content-guia1">
+        <h1>Sistema de Gestión de guías</h1>
+        <h2>Docente</h2>
+        <div>
+            <button type="button" onclick="addSimpleQuestionInput()">Agregar Pregunta Simple</button>
+            <button type="button" onclick="addMultipleChoiceQuestionInput()">Agregar Pregunta de Selección Múltiple</button>
+        </div>
+        <form action="/createdocente" method="POST">
+            <div id="questionsContainer">
+                <!-- Aquí se mostrarán las preguntas -->
+            </div>
+
+            <button type="submit">Guardar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function addSimpleQuestionInput() {
+        const questionsContainer = document.getElementById("questionsContainer");
+        const newQuestionInput = document.createElement("div");
+        newQuestionInput.className = "questionInput";
+        newQuestionInput.innerHTML = `
+          <h3>Crear pregunta simple</h3>
+          <label for="questionText">Texto de la Pregunta:</label>
+          <input type="text" class="questionText" name="simpleQuestionText" required>
+          <button type="button" onclick="removeQuestionInput(this)">Eliminar</button>
+        `;
+        questionsContainer.appendChild(newQuestionInput);
+    }
+
+    function addMultipleChoiceQuestionInput() {
+        const questionsContainer = document.getElementById("questionsContainer");
+        const newQuestionInput = document.createElement("div");
+        newQuestionInput.className = "questionInput";
+        newQuestionInput.innerHTML = `
+          <h3>Crear pregunta de Selección Múltiple</h3>
+          <label for="questionText">Texto de la Pregunta:</label>
+          <input type="text" class="questionText" name="multipleChoiceQuestionText" required>
+          <h4>Opciones de Respuesta:</h4>
+          <div class="optionsContainer">
+            <input type="text" class="optionText" name="option" required>
+            <input type="radio" name="correctOption" value="0" required> Correcta
+            <button type="button" onclick="addOptionInput(this)">Agregar Opción</button>
+          </div>
+          <button type="button" onclick="removeQuestionInput(this)">Eliminar</button>
+        `;
+        questionsContainer.appendChild(newQuestionInput);
+    }
+
+    function addOptionInput(button) {
+        const optionsContainer = button.parentNode;
+        const newOptionInput = document.createElement("input");
+        newOptionInput.type = "text";
+        newOptionInput.className = "optionText";
+        newOptionInput.name = "option";
+        newOptionInput.required = true;
+        optionsContainer.insertBefore(newOptionInput, button);
+
+        const correctOptionInput = document.createElement("input");
+        correctOptionInput.type = "radio";
+        correctOptionInput.name = "correctOption";
+        correctOptionInput.value = optionsContainer.children.length - 2; // El valor es el índice de la opción en el contenedor
+        correctOptionInput.required = true;
+        optionsContainer.insertBefore(correctOptionInput, button);
+    }
+
+    function removeQuestionInput(button) {
+        const questionInput = button.parentNode;
+        const questionsContainer = document.getElementById("questionsContainer");
+        questionsContainer.removeChild(questionInput);
+    }
+</script>
